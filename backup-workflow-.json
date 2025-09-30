@@ -1,0 +1,174 @@
+{
+  "createdAt": "2025-09-30T08:55:25.246Z",
+  "updatedAt": "2025-09-30T10:07:19.000Z",
+  "id": "aTKOyXTAbIqbCdB2",
+  "name": "BACKUP WORKFLOW",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        160
+      ],
+      "id": "5afd394a-bab0-47d2-8751-30ab92e87b41",
+      "name": "n8n",
+      "credentials": {
+        "n8nApi": {
+          "id": "OMxmT1y4y2bp3fCo",
+          "name": "n8n account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -544,
+        48
+      ],
+      "id": "1824fdfb-21e1-49be-8baf-f0dab7e48eb3",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "vietacc",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "mode": "list",
+          "value": "n8nacg"
+        },
+        "filePath": "=docs{{$now.format('yyyy-MM-dd')}}/{{ $json.name }}.json",
+        "fileContent": "Backup",
+        "commitMessage": "={{$now.format('yyyy-MM-dd')}}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        368,
+        144
+      ],
+      "id": "a76f4b24-7cc8-4083-9b8c-ba9c14fb1bfe",
+      "name": "GitHub",
+      "retryOnFail": true,
+      "webhookId": "14459cba-e74c-42b6-9b9a-d675456dd67a",
+      "credentials": {
+        "githubApi": {
+          "id": "L3rWhbRxfnGUdaGz",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "batchSize": 5,
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        48,
+        -64
+      ],
+      "id": "e6bd84b9-5cc3-4d38-a185-a151aeebfc9b",
+      "name": "Loop Over Items",
+      "notesInFlow": true,
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "5efc09fc-8b98-498f-9339-f474d5a46588",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-09-30T08:55:25.250Z",
+      "updatedAt": "2025-09-30T08:55:25.250Z",
+      "role": "workflow:owner",
+      "workflowId": "aTKOyXTAbIqbCdB2",
+      "projectId": "bfksmVoUEprpuzrL"
+    }
+  ],
+  "tags": []
+}
