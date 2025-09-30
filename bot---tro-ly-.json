@@ -1,0 +1,367 @@
+{
+  "createdAt": "2025-09-30T08:53:49.716Z",
+  "updatedAt": "2025-09-30T09:24:39.000Z",
+  "id": "TArb33279bz2qiD8",
+  "name": "Bot - Tro Ly",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        160,
+        -128
+      ],
+      "id": "3e33cd6b-6c2b-4fdc-97c5-7c9b4256e55a",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0ded997d-871e-45fc-aed0-61fb2a1c2a96",
+              "name": "token",
+              "value": "1973634994092554300:vdhXyywnifkULoprQWtRIzDbUIjgXAAvkPAgXuHiReeVybTPdfwpuskwyWNMdvAu",
+              "type": "string"
+            },
+            {
+              "id": "a1370112-69ed-410c-9909-c5883db99112",
+              "name": "url",
+              "value": "https://n8nacg.ancuong.com/webhook/zalo-bot",
+              "type": "string"
+            },
+            {
+              "id": "c51334ca-90b4-4062-b08e-1dcab582efe5",
+              "name": "secret_token",
+              "value": "zalo_n8n_2025",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        384,
+        -128
+      ],
+      "id": "6fd72d32-eba9-4997-b28a-4ca387546114",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://bot-api.zapps.me/bot{{ $json.token }}/setWebhook",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.url }}"
+            },
+            {
+              "name": "secret_token",
+              "value": "={{ $json.secret_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        608,
+        -128
+      ],
+      "id": "d5fd89a5-81ac-4182-8954-2d3c0d75bdb9",
+      "name": "HTTP Request",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "zalo-bot",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        160,
+        200
+      ],
+      "id": "72059139-224b-4afd-8ca7-b44063db4640",
+      "name": "Webhook",
+      "webhookId": "ef6b4adb-a07c-4e07-a0ad-d54fd92c17e2"
+    },
+    {
+      "parameters": {
+        "chatId": "b28a198cb4cf5d9104de",
+        "text": "={{ $json.output }}"
+      },
+      "type": "n8n-nodes-zalo-bot-me.zaloBot",
+      "typeVersion": 1,
+      "position": [
+        736,
+        200
+      ],
+      "id": "9d6f2a76-af2f-4572-b36a-aa31f10debd7",
+      "name": "Zalo Bot",
+      "credentials": {
+        "zaloBotApi": {
+          "id": "8U8mddwoqwTZvhb4",
+          "name": "Zalo Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1vyL5ogdm_bom5Z8LDvtfkJryKqhiARU8IJy0z2SgQro",
+          "mode": "list",
+          "cachedResultName": "Email",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vyL5ogdm_bom5Z8LDvtfkJryKqhiARU8IJy0z2SgQro/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 863423652,
+          "mode": "list",
+          "cachedResultName": "Trang tính1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vyL5ogdm_bom5Z8LDvtfkJryKqhiARU8IJy0z2SgQro/edit#gid=863423652"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email công ty",
+              "lookupValue": "={{ $fromAI('values0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        520,
+        424
+      ],
+      "id": "b52051b9-e0ba-48b8-a59d-5e8d761f15a2",
+      "name": "Email",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "p3v2F2LBWIxYXdHI",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Dựa vào  {{ $fromAI('Phong', ``, 'string') }} hãy cung cấp IP tại {{ $fromAI('Modem_may', ``, 'string') }}",
+        "base": {
+          "__rl": true,
+          "value": "appNfKpsulPWc5qGr",
+          "mode": "list",
+          "cachedResultName": "IP Tỉnh",
+          "cachedResultUrl": "https://airtable.com/appNfKpsulPWc5qGr"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblsgSrCWUCA2dPCW",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appNfKpsulPWc5qGr/tblsgSrCWUCA2dPCW"
+        },
+        "id": "={{ $fromAI('Record_ID', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        176,
+        464
+      ],
+      "id": "327ca313-8767-43e4-b28b-ad26c8e8b31e",
+      "name": "IP",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message.text }}",
+        "options": {
+          "systemMessage": "=# Role  \nBạn là một trợ lý AI có nhiệm vụ *phân phối hiệu quả các câu hỏi của người dùng đến công cụ phù hợp*.  \n\n# Tools  \nBạn có quyền truy cập các công cụ sau. Hãy sử dụng đúng công cụ dựa trên truy vấn đầu vào:\n\n## Email  \n→ Dùng để truy xuất thông tin nhân viên (họ tên, chức danh, phòng ban, Mã ID...) và *mật khẩu email* từ dữ liệu `email`.  \n→ Khi người dùng cung cấp địa chỉ email, hãy trả về mật khẩu và họ tên tương ứng. \n\n## IP  \n→ Dùng để lấy địa chỉ IP của *máy in*, dựa vào tên *phòng ban* người dùng cung cấp.\n\nVí Dụ: xuất đầy đủ thông tin như sau:\nThông tin của:\nTên nhân viên:\nMã ID: \nEmail công ty: \nChức danh: \nBộ phận: \nSố Điện Thoại: \nPassword: "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        384,
+        200
+      ],
+      "id": "4e36f12c-72e8-466a-a1e9-8818d1057e09",
+      "name": "AI Agent1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        392,
+        424
+      ],
+      "id": "78a9d2d8-8e23-4b9e-a83b-089d41cc5b6e",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Vgk59eE57vLB6FDd",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IP": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Zalo Bot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8nacg.ancuong.com",
+            "user-agent": "Java/1.8.0_192",
+            "content-length": "273",
+            "accept": "text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "2001:df0:1a:344::5",
+            "cf-ipcountry": "VN",
+            "cf-ray": "9869826ed8c681c2-HKG",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-warp-tag-id": "2123d29f-43bf-40a9-b581-dbc0b34b684a",
+            "connection": "keep-alive",
+            "content-type": "application/json",
+            "x-bot-api-secret-token": "zalo_n8n_2025",
+            "x-forwarded-for": "2001:df0:1a:344::5",
+            "x-forwarded-proto": "https"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event_name": "message.text.received",
+            "message": {
+              "date": 1759128240136,
+              "chat": {
+                "chat_type": "PRIVATE",
+                "id": "b28a198cb4cf5d9104de"
+              },
+              "message_id": "2fdb554b2336a66eff21",
+              "from": {
+                "id": "b28a198cb4cf5d9104de",
+                "is_bot": false,
+                "display_name": "Nguyễn Thượng Việt"
+              },
+              "text": "hi"
+            }
+          },
+          "webhookUrl": "https://n8nacg.ancuong.com/webhook/zalo-bot",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "12fb2123-af80-4e3d-aa75-9cf5ae5b1e00",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-09-30T08:53:49.719Z",
+      "updatedAt": "2025-09-30T08:53:49.719Z",
+      "role": "workflow:owner",
+      "workflowId": "TArb33279bz2qiD8",
+      "projectId": "bfksmVoUEprpuzrL"
+    }
+  ],
+  "tags": []
+}
